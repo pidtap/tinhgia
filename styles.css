@@ -1,0 +1,223 @@
+/* General styles */
+body {
+    font-family: 'Roboto Slab', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4e1b7; /* Nền trang vàng nhạt */
+}
+
+/* Header Styles */
+header {
+    background-color: #6b4f3a; /* Màu nâu đậm cổ điển */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Đổ bóng header */
+}
+header a{
+    text-decoration: none;
+    margin: 0;
+    font-size: 25px;
+    color: #f4e1b7;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+header a:hover{
+    color: white;
+
+}
+
+header p {
+    font-size: 18px;
+}
+
+/* Main container */
+.main-container {
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+/* Video container (iframe player) */
+.video-container {
+    text-align: center;
+    background-color: #fef8ec;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    transition: height 0.3s ease;
+    padding-bottom: 5px;
+    border-radius: 5px;
+}
+
+iframe {
+    width: 100%;
+    height: 50vh; /* Thay đổi chiều cao video cho màn hình lớn */
+    max-height: 400px;
+    min-height: 200px;
+    border: none;
+}
+
+/* Video description */
+#videoDescription {
+    display: none; /* Ẩn mô tả video mặc định */
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: left; /* Canh trái */
+    font-size: 12px; /* Kích thước font 12px */
+}
+
+/* Video title styling */
+#videoTitle {
+    font-weight: bold;  /* In đậm */
+    text-transform: uppercase; /* Viết hoa */
+    font-size: 18px; /* Kích thước font 18px */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+/* Search bar styling */
+.search-container {
+    width: 100%;
+    margin-bottom: 20px;
+    display: block; /* Đảm bảo ô tìm kiếm chiếm toàn bộ chiều rộng */
+}
+
+#searchInput {
+    width: 100%; /* Chiều rộng ô tìm kiếm bằng chiều rộng của container */
+    max-width: 100%; /* Đảm bảo ô tìm kiếm không vượt quá chiều rộng container */
+    padding: 10px;
+    border: 1px solid #d9ad6b; /* Cam sáng nhẹ */
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #fef8ec;
+}
+
+/* Video list styling */
+.video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%; /* Đảm bảo danh sách video chiếm toàn bộ chiều rộng container */
+}
+
+.video-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fef8ec;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Đổ bóng video-item */
+}
+
+.video-item:hover, .video-item.active {
+    background-color: #8B0000; /* Màu nền đỏ đậm cổ điển */
+    color: white; /* Màu chữ trắng */
+}
+.video-item img {
+    width: 20%;
+    /* height: 50px; */
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: solid 4px #8B0000;
+    transition: border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.video-item:hover img, .video-item.active img{
+    border-color: white;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #6b4f3a; /* Nâu đậm */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Media query for larger screens (desktop) */
+@media (min-width: 768px) {
+    .main-container {
+        flex-wrap: nowrap;
+    }
+
+    .video-container {
+        flex: 3;
+        max-width: 60%;
+    }
+
+    .right-container {
+        flex: 2;
+        max-width: 40%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    header a{
+        font-size: 40px;
+       ;
+    }
+
+    iframe {
+        height: 50vh; /* Chiều cao video 50vh trên màn hình lớn */
+    }
+
+    #searchInput {
+        width: 100%; /* Chiều rộng của ô tìm kiếm bằng chiều rộng container */
+    }
+
+    #videoDescription {
+        display: block; /* Hiển thị mô tả video khi màn hình lớn hơn 768px */
+    }
+}
+
+/* Media query for smaller screens (mobile) */
+@media (max-width: 768px) {
+    .main-container {
+        display: block;
+    }
+
+    .video-container {
+        margin-bottom: 20px;
+    }
+
+    iframe {
+        height: 33vh; /* Chiều cao video 33vh khi màn hình nhỏ */
+    }
+
+    .search-container {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    #searchInput {
+        width: 100%; /* Chiều rộng ô tìm kiếm bằng với video-list */
+    }
+
+    .video-list {
+        width: 100%; /* Danh sách video chiếm toàn bộ chiều rộng */
+    }
+
+    #videoDescription {
+        display: none; /* Ẩn mô tả video khi màn hình nhỏ hơn 768px */
+    }
+}
