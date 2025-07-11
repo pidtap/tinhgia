@@ -73,7 +73,7 @@ img#logo {
 }
 
 .content-wrapper {
-    padding-top: 20px;
+    /* padding-top: 20px; */
     padding-bottom: 20px;
     overflow-x: hidden;
 }

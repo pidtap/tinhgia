@@ -175,57 +175,88 @@ function initializeMovieScroller() {
  * Gắn các sự kiện vuốt (touch) và kéo (mouse) vào một element
  * @param {HTMLElement} element - Element cần gắn sự kiện
  */
+/**
+ * Gắn các sự kiện vuốt (touch) và kéo (mouse) vào một element
+ * @param {HTMLElement} element - Element cần gắn sự kiện
+ */
 function attachSwipeEvents(element) {
     let isDown = false;
     let startX;
     let scrollLeft;
+    let hasDragged = false; // Cờ để kiểm tra đã kéo hay chưa
 
+    // --- Sự kiện cho chuột (Desktop) ---
+
+    // 1. Khi nhấn chuột xuống
     element.addEventListener('mousedown', (e) => {
         isDown = true;
-        element.classList.add('is-dragging');
+        hasDragged = false; // Reset cờ mỗi lần nhấn chuột
         startX = e.pageX - element.offsetLeft;
         scrollLeft = element.scrollLeft;
-    });
-
-    element.addEventListener('mouseleave', () => {
-        isDown = false;
         element.classList.remove('is-dragging');
     });
 
-    element.addEventListener('mouseup', () => {
-        isDown = false;
-        element.classList.remove('is-dragging');
-    });
-
+    // 2. Khi di chuyển chuột
     element.addEventListener('mousemove', (e) => {
         if (!isDown) return;
-        e.preventDefault();
+        e.preventDefault(); // Ngăn chọn văn bản khi kéo
+
         const x = e.pageX - element.offsetLeft;
-        const walk = (x - startX) * 2; // Kéo nhanh hơn
-        element.scrollLeft = scrollLeft - walk;
+        const walk = x - startX;
+
+        // Nếu di chuyển hơn 5px thì mới tính là kéo
+        if (Math.abs(walk) > 5) {
+            hasDragged = true;
+        }
+
+        if (hasDragged) {
+            element.classList.add('is-dragging');
+            element.scrollLeft = scrollLeft - walk * 2; // Kéo nhanh hơn
+        }
     });
 
-    // Hỗ trợ cho màn hình cảm ứng
+    // 3. Khi nhả chuột hoặc chuột rời khỏi vùng
+    const endDrag = () => {
+        isDown = false;
+        element.classList.remove('is-dragging');
+    };
+    element.addEventListener('mouseup', endDrag);
+    element.addEventListener('mouseleave', endDrag);
+
+    // 4. Xử lý sự kiện click
+    element.addEventListener('click', (e) => {
+        // Nếu đã kéo (hasDragged là true) thì chặn sự kiện click
+        if (hasDragged) {
+            e.stopPropagation();
+        }
+    }, true); // "true" để chạy ở pha capturing, xử lý trước khi click vào phim
+
+    // --- Sự kiện cho cảm ứng (Mobile) ---
+
     element.addEventListener('touchstart', (e) => {
         isDown = true;
-        element.classList.add('is-dragging');
+        hasDragged = false;
         startX = e.touches[0].pageX - element.offsetLeft;
         scrollLeft = element.scrollLeft;
-    });
-
-    element.addEventListener('touchend', () => {
-        isDown = false;
         element.classList.remove('is-dragging');
     });
 
     element.addEventListener('touchmove', (e) => {
         if (!isDown) return;
         const x = e.touches[0].pageX - element.offsetLeft;
-        const walk = (x - startX) * 2;
-        element.scrollLeft = scrollLeft - walk;
-    });
-}
+        const walk = x - startX;
 
+        if (Math.abs(walk) > 5) {
+            hasDragged = true;
+        }
+        
+        if (hasDragged) {
+            element.scrollLeft = scrollLeft - walk * 2;
+        }
+    });
+
+    element.addEventListener('touchend', endDrag);
+}
 
 function setupHistoryScroller() {
     const scroller = document.querySelector('#history-container .movie-scroller-inner');
